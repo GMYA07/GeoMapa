@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
                             Log.d("NOMINATIM", "Nombre: " + lugar.getDisplayName());
 
+                            // Correr en el hilo principal para actualizar la UI
+                            runOnUiThread(() -> mostrarEnMapa(lugar));
+
                         }
                     }
 
