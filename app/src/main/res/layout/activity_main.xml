@@ -23,6 +23,7 @@
         android:textStyle="bold"/>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/contenedorMapa"
         android:layout_width="350dp"
         android:layout_height="200dp"
         android:layout_marginTop="25dp"
@@ -41,9 +42,121 @@
 
     <LinearLayout
         android:id="@+id/contenedorBuscador"
+        app:layout_constraintTop_toBottomOf="@id/contenedorMapa"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/txtBuscar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_style"
+            android:layout_marginEnd="10dp"
+            android:hint="Buscar lugar..."
+            android:textColor="#212121"
+            android:textColorHint="#9E9E9E"
+            android:textSize="15sp"
+            android:inputType="text" />
+
+        <ImageButton
+            android:id="@+id/btnBuscar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/boton_buscar"
+            android:src="@android:drawable/ic_menu_search"
+            app:tint="#FFFFFF"
+            android:padding="10dp" />
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/txtLugarUbi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/contenedorBuscador"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="San Salvador"
+        android:textColor="#0048FF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#0048FF"
+        app:layout_constraintTop_toBottomOf="@+id/txtLugarUbi"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <LinearLayout
+            android:id="@+id/contenedorInfoGeneral"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Informacion General"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:textStyle="bold|italic" />
+            <LinearLayout
+                android:id="@+id/contenedorPais"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:id="@+id/txtPais"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pais: El Salvador"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/txtCodigoPostal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Codigo Postal: 2454"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/txtDepartamento_Estado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Departamento/Estado: San Salvador, El Salvador"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/txtDepartamento_Estado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Coordenadas: 1231231asd"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/txtImportancia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Importancia: Mucha xd"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

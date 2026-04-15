@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         mapView.getController().setZoom(5.0);
 
         // Prueba de conexión
-        buscarLugar("Torre Eiffel");
+        buscarLugar("San Salvador, El Salvador");
     }
 
     private void buscarLugar(String query) {
