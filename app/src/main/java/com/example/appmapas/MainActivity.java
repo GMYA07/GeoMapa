@@ -2,6 +2,9 @@ package com.example.appmapas;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +27,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private MapView mapView;
+    private TextView txtLugarUbi, txtPais, txtCodigoPostal, txtDepartamentoEstado, txtCoordenadas, txtImportancia;
+    private EditText inputBuscar;
+    private ImageButton btnBuscar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        btnBuscar = findViewById(R.id.btnBuscar);
+        inputBuscar = findViewById(R.id.inputBuscar);
 
         // Configuración obligatoria de osmdroid
         Configuration.getInstance().setUserAgentValue("AppMapas/1.0");
@@ -51,6 +60,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Prueba de conexión
         buscarLugar("San Salvador, El Salvador");
+
+        btnBuscar.setOnClickListener(v->{
+            String lugar = inputBuscar.getText().toString().trim();
+
+            if (lugar.isEmpty()){
+                inputBuscar.setError("Ingresa un lugar");
+                return;
+            }
+            buscarLugar(lugar);
+        });
+
     }
 
     private void buscarLugar(String query) {
