@@ -82,9 +82,10 @@
         app:layout_constraintTop_toBottomOf="@id/contenedorBuscador"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:padding="10dp"
         android:text="San Salvador"
         android:textColor="#0048FF"
-        android:textSize="30sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:textAlignment="center"/>
 
@@ -154,6 +155,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="Importancia: Mucha xd"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/txtTipo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Tipo: Lugar"
                 android:textColor="@color/white"/>
 
         </LinearLayout>

@@ -27,7 +27,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private MapView mapView;
-    private TextView txtLugarUbi, txtPais, txtCodigoPostal, txtDepartamentoEstado, txtCoordenadas, txtImportancia;
+    private TextView txtLugarUbi, txtPais, txtCodigoPostal, txtDepartamentoEstado, txtCoordenadas, txtImportancia, txtTipo;
     private EditText inputBuscar;
     private ImageButton btnBuscar;
 
@@ -42,16 +42,17 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        btnBuscar = findViewById(R.id.btnBuscar);
-        inputBuscar = findViewById(R.id.inputBuscar);
+
 
         // Configuración obligatoria de osmdroid
         Configuration.getInstance().setUserAgentValue("AppMapas/1.0");
 
         setContentView(R.layout.activity_main);
 
-        // Inicializar el mapa
+        btnBuscar = findViewById(R.id.btnBuscar);
+        inputBuscar = findViewById(R.id.inputBuscar);
         mapView = findViewById(R.id.mapView);
+        // Inicializar el mapa
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setMultiTouchControls(true);
 
@@ -80,28 +81,62 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(Call<List<PlaceResult>> call, Response<List<PlaceResult>> response) {
-                        Log.d("NOMINATIM", "Código respuesta: " + response.code());
 
                         if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                             PlaceResult lugar = response.body().get(0);
 
-                            Log.d("NOMINATIM", "Nombre: " + lugar.getDisplayName());
+                            runOnUiThread(() -> {
+                                // Inicializar vistas
+                                txtLugarUbi = findViewById(R.id.txtLugarUbi);
+                                txtPais = findViewById(R.id.txtPais);
+                                txtCodigoPostal = findViewById(R.id.txtCodigoPostal);
+                                txtDepartamentoEstado = findViewById(R.id.txtDepartamento_Estado);
+                                txtCoordenadas = findViewById(R.id.txtCoordenadas);
+                                txtImportancia = findViewById(R.id.txtImportancia);
+                                txtTipo = findViewById(R.id.txtTipo);
 
-                            // Correr en el hilo principal para actualizar la UI
-                            runOnUiThread(() -> mostrarEnMapa(lugar));
+                                // Mostrar datos
 
+                                txtLugarUbi.setText(lugar.getDisplayName());
+                                txtCoordenadas.setText("Coordenadas: " + lugar.getLat() + ", " + lugar.getLon());
+                                txtImportancia.setText("Importancia: " + lugar.getImportance());
+                                txtTipo.setText("Tipo: " + lugar.getType());
+
+                                if (lugar.getAddress() != null) {
+                                    txtPais.setText("País: " + lugar.getAddress().getCountry());
+                                    txtCodigoPostal.setText("Código Postal: " + lugar.getAddress().getPostcode());
+                                    txtDepartamentoEstado.setText("Departamento/Estado: " + lugar.getAddress().getCity() + ", " + lugar.getAddress().getState());
+                                } else {
+                                    txtPais.setText("País: No disponible");
+                                    txtCodigoPostal.setText("Código Postal: No disponible");
+                                    txtDepartamentoEstado.setText("Departamento/Estado: No disponible");
+                                }
+
+                                mostrarEnMapa(lugar);
+                            });
+                        }else {
+                            // La API respondio pero no encontró el lugar
+                            runOnUiThread(() -> {
+                                inputBuscar.setError("Lugar no encontrado");
+                            });
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<PlaceResult>> call, Throwable t) {
-                        Log.e("NOMINATIM", "Error: " + t.getMessage());
+                        // Error de red o conexion
+                        runOnUiThread(() -> {
+                            inputBuscar.setError("Sin conexión a internet");
+                        });
                     }
                 });
     }
 
     private void mostrarEnMapa(PlaceResult lugar) {
         GeoPoint punto = new GeoPoint(lugar.getLatAsDouble(), lugar.getLonAsDouble());
+
+        // Limpiar marcadores anteriores
+        mapView.getOverlays().clear();
 
         // Centrar y hacer zoom al lugar
         mapView.getController().setZoom(15.0);
